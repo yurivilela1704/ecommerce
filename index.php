@@ -1,19 +1,25 @@
 <?php 
 
+//chama as dependencias
 require_once("vendor/autoload.php");
 
-$app = new \Slim\Slim();
+use \Slim\Slim;
+use \Hcode\DB;
+use \Hcode\Page;
+
+
+$app = new Slim();
 
 $app->config('debug', true);
 
 $app->get('/', function() {
-    
-	$sql = new \Hcode\DB\Sql();
-	$tb_results = $sql->select("select * from tb_users");
-    echo json_encode($tb_results);
+
+    $page = new Page();
+
+    $page->setTpl("index");
 
 });
 
 $app->run();
 
- ?>
+?>
