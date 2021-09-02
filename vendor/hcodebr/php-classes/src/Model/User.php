@@ -59,4 +59,80 @@ class User extends Model
     {
         $_SESSION[User::SESSION] = NULL;
     }
+
+    public static function listAll()
+    {
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_users 
+                            INNER JOIN tb_persons USING(idperson) 
+                            ORDER BY tb_persons.desperson");
+    }
+
+    public function get($iduser)
+    {
+
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM tb_users a 
+                                INNER JOIN tb_persons b USING(idperson) 
+                                WHERE a.iduser = :iduser;", array(":iduser"=>$iduser)
+        );
+
+        $data = $results[0];
+
+        $this->setData($data);
+
+    }
+
+    public function save()
+    {
+        $sql = new Sql();
+        /* Ordem da procedure:
+        pdesperson varchar(64),
+        pdeslogin varchar(64),
+        pdespassword varchar(256),
+        pdesemail varchar(128),
+        pnrphone bigint,
+        pinadmin tinyint
+         */
+
+        $result = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", [
+            ":desperson"=>$this->getdesperson(),
+            ":deslogin"=>$this->getdeslogin(),
+            ":despassword"=>$this->getdespassword(),
+            ":desemail"=>$this->getdesemail(),
+            ":nrphone"=>$this->getnrphone(),
+            ":inadmin"=>$this->getinadmin()
+        ]);
+
+        $this->setData($result[0]);
+    }
+
+    public function update()
+    {
+        $sql = new Sql();
+
+        $result = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", [
+            ":iduser"=>$this->getiduser(),
+            ":desperson"=>$this->getdesperson(),
+            ":deslogin"=>$this->getdeslogin(),
+            ":despassword"=>$this->getdespassword(),
+            ":desemail"=>$this->getdesemail(),
+            ":nrphone"=>$this->getnrphone(),
+            ":inadmin"=>$this->getinadmin()
+        ]);
+
+        $this->setData($result[0]);
+    }
+
+    public function delete()
+    {
+        $sql = new Sql();
+
+        $sql->query("CALL sp_users_delete(:iduser)", [
+            ":iduser"=>$this->getiduser()
+        ]);
+
+    }
 }
