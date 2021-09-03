@@ -3,12 +3,12 @@
 namespace Hcode;
 
 use Rain\Tpl;
-
+use PHPMailer\PHPMailer\PHPMailer;
 
 class Mailer {
 
     const USERNAME = "yurimarquez1704@gmail.com";
-    const PASSWORD = "<?password?>";
+    const PASSWORD = "#";
     const NAME_FROM = "Hcode Store";
 
     private $mail;
@@ -32,7 +32,7 @@ class Mailer {
 
         $html = $tpl->draw($tplName, true);
 
-        $this->mail = new \PHPMailer;
+        $this->mail = new PHPMailer;
 
         //Tell PHPMailer to use SMTP
         $this->mail->isSMTP();
