@@ -155,7 +155,9 @@ desired effect
                                             <!-- The progress bar -->
                                             <div class="progress xs">
                                                 <!-- Change the css width attribute to simulate progress -->
-                                                <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"
+                                                     role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                                     aria-valuemax="100">
                                                     <span class="sr-only">20% Complete</span>
                                                 </div>
                                             </div>
@@ -258,6 +260,7 @@ desired effect
                 <!-- Optionally, you can add icons to the links -->
                 <li><a href="/admin/users"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
                 <li><a href="/admin/categories"><i class="fa fa-shopping-bag"></i> <span>Categorias</span></a></li>
+                <li><a href="/admin/products"><i class="fa fa-product-hunt"></i> <span>Produtos</span></a></li>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
                         <span class="pull-right-container">

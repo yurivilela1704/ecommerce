@@ -29,7 +29,7 @@ class Model
         }
     }
 
-    public function getValues(): array
+    public function getValues()
     {
         return $this->values;
     }
