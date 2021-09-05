@@ -1,0 +1,62 @@
+<?php
+
+namespace Hcode\Model;
+
+use Hcode\DB\Sql;
+use Hcode\Model;
+
+class Product extends Model
+{
+    public static function listAll()
+    {
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_products ORDER BY desproduct");
+
+    }
+
+    public function save()
+    {
+        $sql = new Sql();
+
+        $result = $sql->select("CALL sp_products_save(:idproduct, :desproduct, :vlprice, :vlwidth, 
+        :vlheight, :vllength, :vlweight, :desurl)", [
+            ":idproduct" => $this->getidproduct(),
+            ":desproduct" => $this->getdesproduct(),
+            ":vlprice" => $this->getvlprice(),
+            ":vlwidth" => $this->getvlwidth(),
+            ":vlheight" => $this->getvlheight(),
+            ":vllength" => $this->getvllength(),
+            ":vlweight" => $this->getvlweight(),
+            ":desurl" => $this->getdesurl()
+        ]);
+
+        $this->setData($result[0]);
+
+    }
+
+    public function getProduct($idproduct)
+    {
+
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM tb_products WHERE idproduct = :idproduct;",
+            [":idproduct" => $idproduct]
+        );
+
+        $data = $results[0];
+
+        $this->setData($data);
+
+    }
+
+    public function delete()
+    {
+        $sql = new Sql();
+
+        $sql->query("DELETE FROM tb_products WHERE idproduct = :idproduct;",
+            [":idcategory" => $this->getidcategory()]
+        );
+
+    }
+}
