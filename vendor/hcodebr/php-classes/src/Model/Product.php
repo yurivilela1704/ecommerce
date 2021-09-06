@@ -15,6 +15,18 @@ class Product extends Model
 
     }
 
+    public static function checkList($list)
+    {
+
+        foreach ($list as &$row) {
+
+            $product = new Product();
+            $product->setData($row);
+            $row = $product->getValues();
+        }
+        return $list;
+    }
+
     public function save()
     {
         $sql = new Sql();
