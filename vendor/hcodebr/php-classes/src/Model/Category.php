@@ -111,9 +111,32 @@ class Category extends Model
         $sql = new Sql();
 
         $sql->query("DELETE FROM tb_productscategories 
-                    WHERE idcategory = :idcategory AND idproduct = :idproduct;", [
+                    WHERE idcategory = :idcategory AND idproduct = :idproduct);", [
             ":idcategory"=>$this->getidcategory(),
             ":idproduct"=>$product->getidproduct()
         ]);
+    }
+
+    //parte da paginação
+    public function getProductsPage($actualPage = 1, $prodPerPage = 3)
+    {
+        $start = ($actualPage - 1) * $prodPerPage;
+
+        $sql = new Sql();
+
+        $prodResult =$sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_products
+                        INNER JOIN tb_productscategories on tb_products.idproduct = tb_productscategories.idproduct
+                        INNER JOIN tb_categories ON tb_categories.idcategory = tb_productscategories.idcategory
+                        where tb_categories.idcategory = :idcategory
+                        LIMIT $start, $prodPerPage;", [
+            ":idcategory" => $this->getidcategory()
+        ]);
+        $totalResult = $sql->select("SELECT FOUND_ROWS() AS nrtotal;");
+
+        return [
+            "data"=>Product::checkList($prodResult),
+            "total"=>(int)$totalResult[0]["nrtotal"],
+            "pages"=>ceil($totalResult[0]["nrtotal"] / $prodPerPage)
+        ];
     }
 }
