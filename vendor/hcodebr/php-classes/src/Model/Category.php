@@ -111,14 +111,14 @@ class Category extends Model
         $sql = new Sql();
 
         $sql->query("DELETE FROM tb_productscategories 
-                    WHERE idcategory = :idcategory AND idproduct = :idproduct);", [
+                    WHERE idcategory = :idcategory AND idproduct = :idproduct", [
             ":idcategory"=>$this->getidcategory(),
             ":idproduct"=>$product->getidproduct()
         ]);
     }
 
     //parte da paginação
-    public function getProductsPage($actualPage = 1, $prodPerPage = 3)
+    public function getProductsPage($actualPage = 1, $prodPerPage = 4)
     {
         $start = ($actualPage - 1) * $prodPerPage;
 
